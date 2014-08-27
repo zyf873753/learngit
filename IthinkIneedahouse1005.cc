@@ -1,7 +1,8 @@
 #include<iostream>
 #include<math.h>
+#define PI 3.14159265358979323846
 using namespace std;
-#define PI 3.14159265358979323846;
+	
 
 int main()	
 {
@@ -13,6 +14,8 @@ int main()
 		cin>>lx>>ly;
 		int y;
 		double r=sqrt(lx*lx+ly*ly); //pow(lx,2) is equal to lx*lx
+		if(r!=(int)r)
+			r++;
 		y=r*r*PI/(2*50);
 		cout<<"Property 1: This property will begin eroding in year "<<y+1<<"."<<endl;
 	}
