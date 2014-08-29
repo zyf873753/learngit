@@ -10,7 +10,7 @@ public:
 	Node():value(""),next(NULL) {};
 };
 
-void push(Node *first,string url)
+void push(Node *&first,string url)
 {
 	Node *oldfirst=first;
 	first=new Node();
@@ -18,7 +18,7 @@ void push(Node *first,string url)
 	first->next=oldfirst;
 }
 
-string pop(Node *first)
+string pop(Node *&first)
 {
 	string popvalue=first->value;
 	Node *oldfirst=first;
@@ -27,7 +27,7 @@ string pop(Node *first)
 	return popvalue;
 }
 
-void delAll(Node *first)
+void delAll(Node *&first)
 {
 	while(first!=NULL)
 	{
@@ -39,12 +39,13 @@ void delAll(Node *first)
 
 int main()
 {
-	Node *forward=new Node();
-	Node *back=new Node();
+	Node *forward=NULL;//don't new
+	Node *back=NULL;
 	string currenturl="";
 	string cmd;
-	while(cin>>cmd)
+	while(true)
 	{
+		cin>>cmd;
 		if(cmd=="VISIT")	
 		{
 			cin>>cmd;
@@ -52,17 +53,31 @@ int main()
 				push(back,currenturl);
 			currenturl=cmd;	
 			delAll(forward);
+			cout<<currenturl<<endl;
 		}
 		else if(cmd=="BACK")
 		{
-			push(forward,currenturl);
-			currenturl=pop(back);
+			if(back!=NULL) 
+			{
+				push(forward,currenturl);
+				currenturl=pop(back);
+				cout<<currenturl<<endl;
+			}
+			else //if back stack is empty,ignore the operation.
+				cout<<"Ignored"<<endl;
 		}
 		else if(cmd=="FORWARD")
 		{
-			push(back,currenturl);
-			currenturl=pop(forward);
+			if(forward!=NULL)
+			{
+				push(back,currenturl);
+				currenturl=pop(forward);
+				cout<<currenturl<<endl;
+			}
+			else //if forward stack is empty,ignore the operation.
+				cout<<"Ignored"<<endl;
 		}
-		cout<<currenturl<<endl;
+		else if(cmd=="QUIT")
+			break;
 	} 
 }
